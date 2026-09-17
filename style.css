@@ -25,19 +25,9 @@
     -webkit-font-smoothing:antialiased;
     min-height:100vh;
   }
-  body[data-theme]{}
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --ivory:#12211C; --cream:#1A2E26; --charcoal:#EDE6D6; --olive:#B9B8A9;
-      --border-beige:#3A4A40; --deep-green:#0B3026; --forest:#1C4B3C;
-      --success-bg:#1E332A; --error-bg:#3A2626;
-    }
-  }
-  :root[data-theme="dark"]{
-    --ivory:#12211C; --cream:#1A2E26; --charcoal:#EDE6D6; --olive:#B9B8A9;
-    --border-beige:#3A4A40; --deep-green:#0B3026; --forest:#1C4B3C;
-    --success-bg:#1E332A; --error-bg:#3A2626;
-  }
+  /* Intentionally no dark-mode / prefers-color-scheme override: QURRA has one
+     deliberate manuscript palette, and should render identically regardless
+     of the visitor's OS/browser/host (e.g. Whop) dark-mode setting. */
 
   a{color:inherit;}
   #app{max-width:960px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;}
