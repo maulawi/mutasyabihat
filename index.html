@@ -3,268 +3,482 @@
 <head>
 <meta charset="UTF-8" />
 <title>QURRA — Cabaran Mutasyabihat</title>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#F9F5EA" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
+  /* =====================================================================
+     QURRA · Hifz Lab — "Cream-First Islamic Scholarly" design system
+     Palette: 70% warm cream · 20% olive green · 10% antique gold & sand
+     ===================================================================== */
   :root{
-    --deep-green:#0B3026;
-    --forest:#123D31;
-    --cream:#F4EBD8;
-    --ivory:#FAF6EC;
-    --gold:#B89A5A;
-    --soft-gold:#D7C28A;
-    --charcoal:#1F211D;
-    --olive:#66685F;
-    --border-beige:#CDBD98;
-    --success:#2E6B4F;
-    --success-bg:#E7EFE8;
-    --error:#9B4D4D;
-    --error-bg:#F3E7E7;
-    --font-serif:'Cormorant Garamond', serif;
-    --font-sans:'Inter', sans-serif;
-    --font-ar:'Amiri', serif;
+    /* Core palette */
+    --cream:#F9F5EA;          /* main background */
+    --cream-raised:#FCFAF3;   /* raised card surface */
+    --olive:#254E3D;          /* primary / active / navigation */
+    --olive-hover:#1D3F31;
+    --olive-tint:#E6ECE5;     /* subtle olive wash */
+    --gold:#C9A85E;           /* icons, borders, progress */
+    --gold-soft:#E3D2A6;
+    --sand:#E8D9C3;           /* secondary surfaces, hairlines */
+    --sand-tint:#F3EBDD;
+    --charcoal:#252B28;       /* main text */
+    --text-muted:#6B6F66;
+    --text-subtle:#8C8E85;
+
+    /* Feedback (restrained) */
+    --success:#3F7A5A;
+    --success-bg:#EAF0E8;
+    --error:#A65A44;          /* muted terracotta */
+    --error-bg:#F6E9E3;
+
+    /* Type */
+    --font-display:'Playfair Display', Georgia, serif;
+    --font-sans:'Inter', 'Amiri', system-ui, -apple-system, 'Segoe UI', sans-serif; /* Amiri covers Arabic quoted inside Latin text */
+    --font-ar:'Amiri', 'Noto Naskh Arabic', serif;
+
+    /* Shape & depth */
+    --radius-sm:10px;
+    --radius:16px;
+    --radius-lg:22px;
+    --radius-pill:999px;
+    --hairline:1px solid var(--sand);
+    --shadow-sm:0 1px 2px rgba(37,43,40,0.04), 0 2px 8px rgba(37,43,40,0.04);
+    --shadow:0 2px 6px rgba(37,43,40,0.04), 0 10px 28px rgba(80,62,24,0.07);
+    --ease:cubic-bezier(.2,.7,.3,1);
+
+    /* Layout */
+    --content-w:760px;
+    --bottom-nav-h:68px;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
+  html{-webkit-text-size-adjust:100%;}
   body{
-    background:var(--ivory);
+    background:var(--cream);
     color:var(--charcoal);
     font-family:var(--font-sans);
+    font-weight:400;
+    font-size:15px;
+    line-height:1.55;
     -webkit-font-smoothing:antialiased;
     min-height:100vh;
+    overflow-x:hidden;
+    font-variant-numeric:lining-nums;
   }
   /* Intentionally no dark-mode / prefers-color-scheme override: QURRA has one
      deliberate manuscript palette, and should render identically regardless
      of the visitor's OS/browser/host (e.g. Whop) dark-mode setting. */
 
   a{color:inherit;}
-  #app{max-width:960px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;}
+  button{font-family:inherit;}
+  svg.ic{width:20px;height:20px;flex:0 0 auto;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+  #app{min-height:100vh;display:flex;flex-direction:column;}
 
-  /* ---------- Nav ---------- */
+  /* ---------- Top header ---------- */
   .nav{
-    display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;row-gap:10px;
-    padding:18px 24px;background:var(--deep-green);color:var(--ivory);
+    position:sticky;top:0;z-index:20;
+    background:rgba(249,245,234,0.92);
+    -webkit-backdrop-filter:saturate(1.2) blur(10px);backdrop-filter:saturate(1.2) blur(10px);
+    border-bottom:1px solid rgba(232,217,195,0.7);
+    padding-top:env(safe-area-inset-top);
   }
-  .brand{display:flex;align-items:center;gap:10px;font-family:var(--font-serif);font-size:22px;letter-spacing:0.02em;}
-  .brand .mark{
-    width:30px;height:30px;border-radius:50%;border:1.5px solid var(--soft-gold);
-    display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--soft-gold);
+  .nav-inner{
+    max-width:960px;margin:0 auto;
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding:12px 20px;
   }
-  .nav-right{display:flex;align-items:center;gap:22px;}
-  .navlinks{display:flex;gap:22px;font-size:14px;}
+  .brand{
+    display:flex;align-items:center;gap:10px;background:none;border:none;padding:0;cursor:pointer;
+    color:var(--charcoal);font-family:var(--font-display);font-size:19px;letter-spacing:0.08em;
+  }
+  .brand .mark{color:var(--gold);display:flex;}
+  .brand .mark svg{width:28px;height:28px;}
+  .nav-right{display:flex;align-items:center;gap:24px;}
+  .navlinks{display:flex;gap:4px;}
   .navlinks button{
-    background:none;border:none;color:var(--cream);opacity:0.75;cursor:pointer;
-    font-family:var(--font-sans);font-size:14px;padding:4px 0;
+    background:none;border:none;cursor:pointer;color:var(--text-muted);
+    font-size:14px;font-weight:500;padding:8px 14px;border-radius:var(--radius-pill);
+    transition:color .2s var(--ease), background .2s var(--ease);
   }
-  .navlinks button.active{opacity:1;border-bottom:1.5px solid var(--soft-gold);}
-  .lang-toggle{display:flex;gap:2px;border:1px solid rgba(250,246,236,0.35);border-radius:6px;padding:2px;flex-shrink:0;}
+  .navlinks button:hover{color:var(--olive);}
+  .navlinks button.active{color:var(--olive);background:var(--olive-tint);}
+  .lang-toggle{
+    display:flex;gap:2px;border:var(--hairline);background:var(--cream-raised);
+    border-radius:var(--radius-pill);padding:3px;flex-shrink:0;
+  }
   .lang-toggle button{
-    background:none;border:none;color:var(--cream);opacity:0.7;cursor:pointer;
-    font-family:var(--font-sans);font-size:12px;font-weight:600;letter-spacing:0.03em;
-    padding:4px 9px;border-radius:4px;
+    background:none;border:none;color:var(--text-muted);cursor:pointer;
+    font-size:11.5px;font-weight:500;letter-spacing:0.06em;
+    padding:5px 11px;border-radius:var(--radius-pill);transition:all .2s var(--ease);
   }
-  .lang-toggle button.active{opacity:1;background:var(--soft-gold);color:var(--deep-green);}
-  @media (max-width:600px){
-    .navlinks{gap:14px;} .navlinks button{font-size:12.5px;}
-    .nav-right{gap:12px;}
-    .lang-toggle button{font-size:11px;padding:3px 7px;}
-  }
-  @media (max-width:480px){
-    .nav-right{width:100%;justify-content:space-between;gap:10px;}
+  .lang-toggle button.active{background:var(--olive);color:var(--cream);}
+
+  /* ---------- Bottom navigation (mobile) ---------- */
+  .bottom-nav{display:none;}
+  @media (max-width:760px){
+    .navlinks{display:none;}
+    .bottom-nav{
+      display:flex;justify-content:space-around;align-items:center;
+      position:fixed;left:0;right:0;bottom:0;z-index:30;
+      background:rgba(252,250,243,0.96);
+      -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+      border-top:1px solid var(--sand);
+      padding:8px 12px calc(8px + env(safe-area-inset-bottom));
+      box-shadow:0 -6px 24px rgba(80,62,24,0.05);
+    }
+    .bottom-nav button{
+      flex:1;max-width:120px;display:flex;flex-direction:column;align-items:center;gap:3px;
+      background:none;border:none;cursor:pointer;color:var(--text-subtle);
+      font-size:11px;font-weight:500;padding:6px 4px;border-radius:14px;
+      transition:color .2s var(--ease), background .2s var(--ease);
+    }
+    .bottom-nav button .ic{width:22px;height:22px;}
+    .bottom-nav button.active{color:var(--cream);background:var(--olive);}
   }
 
-  main{flex:1;padding:28px 24px 60px;}
-  @media (max-width:600px){ main{padding:20px 16px 48px;} }
+  main{
+    flex:1;width:100%;max-width:var(--content-w);margin:0 auto;
+    padding:28px 20px 64px;
+    animation:fadeUp .35s var(--ease) both;
+  }
+  @media (max-width:760px){
+    main{padding:20px 16px 40px;}
+  }
+  @keyframes fadeUp{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
 
   /* ---------- Buttons ---------- */
   .btn{
-    display:inline-flex;align-items:center;justify-content:center;gap:8px;
-    font-family:var(--font-sans);font-size:15px;font-weight:600;
-    padding:13px 26px;border-radius:6px;cursor:pointer;border:1px solid transparent;
-    transition:opacity .15s ease, transform .15s ease;
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    font-family:var(--font-sans);font-size:15px;font-weight:500;letter-spacing:0.01em;
+    min-height:52px;padding:0 28px;border-radius:var(--radius-pill);cursor:pointer;
+    border:1px solid transparent;
+    transition:background .2s var(--ease), border-color .2s var(--ease), box-shadow .2s var(--ease), transform .12s var(--ease), opacity .2s;
   }
-  .btn:active{transform:scale(0.98);}
-  .btn-primary{background:var(--deep-green);color:var(--ivory);}
-  .btn-primary:hover{opacity:0.92;}
-  .btn-secondary{background:transparent;color:var(--deep-green);border-color:var(--border-beige);}
-  .btn-secondary:hover{background:var(--cream);}
-  .btn-accent{background:var(--gold);color:var(--charcoal);}
-  .btn-accent:hover{opacity:0.9;}
+  .btn:active{transform:scale(0.985);}
+  .btn .ic{width:19px;height:19px;}
+  .btn-primary{background:var(--olive);color:var(--cream);box-shadow:0 6px 18px rgba(37,78,61,0.18);}
+  .btn-primary:hover{background:var(--olive-hover);}
+  .btn-secondary{background:var(--cream-raised);color:var(--olive);border-color:var(--sand);}
+  .btn-secondary:hover{border-color:var(--gold);}
   .btn-block{width:100%;}
-  .btn:disabled{opacity:0.4;cursor:not-allowed;}
-  .btn-plain{background:none;border:none;color:var(--olive);font-family:var(--font-sans);font-size:13px;cursor:pointer;text-decoration:underline;}
+  .btn:disabled,.btn:disabled:hover{background:var(--sand);color:var(--text-subtle);box-shadow:none;cursor:not-allowed;transform:none;}
+  .btn-plain{background:none;border:none;color:var(--text-muted);font-family:var(--font-sans);font-size:13px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:6px 0;}
+  .btn-plain:hover{color:var(--error);}
 
-  /* ---------- Cards / shared ---------- */
+  /* ---------- Cards / type ---------- */
   .card{
-    background:var(--cream);border:1px solid var(--border-beige);border-radius:10px;
-    padding:22px;
+    background:var(--cream-raised);border:var(--hairline);border-radius:var(--radius);
+    padding:22px;box-shadow:var(--shadow-sm);
   }
-  h1,h2,h3{font-family:var(--font-serif);color:var(--deep-green);margin:0 0 8px;font-weight:600;}
-  .eyebrow{font-family:var(--font-sans);font-size:12.5px;color:var(--gold);letter-spacing:0.08em;margin-bottom:6px;}
-  p{line-height:1.6;color:var(--charcoal);}
-  .muted{color:var(--olive);font-size:14px;}
+  h1,h2,h3{font-family:var(--font-display);color:var(--charcoal);margin:0 0 8px;font-weight:400;letter-spacing:-0.005em;}
+  h2{font-size:28px;line-height:1.25;}
+  h3{font-size:20px;line-height:1.3;}
+  .eyebrow{font-family:var(--font-sans);font-size:11.5px;font-weight:500;color:var(--gold);letter-spacing:0.16em;text-transform:uppercase;margin-bottom:10px;}
+  p{line-height:1.7;color:var(--charcoal);}
+  .muted{color:var(--text-muted);font-size:14px;}
+  .page-head{text-align:center;margin:4px 0 26px;}
+  .page-head .head-icon{color:var(--gold);display:inline-flex;margin-bottom:10px;}
+  .page-head .head-icon svg{width:34px;height:34px;stroke-width:1.3;}
+  .page-head p{margin:4px auto 0;max-width:520px;}
+  .section-title{font-family:var(--font-display);font-size:20px;margin:32px 0 12px;}
+
+  .back-link{
+    background:none;border:none;color:var(--text-muted);font-size:14px;cursor:pointer;
+    margin-bottom:16px;display:inline-flex;align-items:center;gap:6px;padding:6px 2px;
+  }
+  .back-link .ic{width:18px;height:18px;}
+  .back-link:hover{color:var(--olive);}
 
   /* ---------- Home ---------- */
-  .hero{
-    background:linear-gradient(160deg, var(--deep-green), var(--forest));
-    color:var(--ivory);border-radius:14px;padding:48px 40px;position:relative;overflow:hidden;
-    border:1px solid var(--forest);
+  .hero{position:relative;padding:18px 0 8px;overflow:hidden;}
+  .hero-text{position:relative;z-index:1;max-width:440px;}
+  .hero h1{font-size:42px;line-height:1.12;margin-bottom:14px;}
+  .hero p{color:var(--text-muted);font-size:15.5px;margin:0;max-width:380px;}
+  .hero-art{
+    position:absolute;right:-12px;bottom:-6px;width:260px;height:auto;
+    color:var(--gold);opacity:0.55;pointer-events:none;
   }
-  .hero::before, .hero::after{
-    content:"";position:absolute;width:74px;height:74px;border:1px solid rgba(215,194,138,0.35);
-    border-radius:50%;
+  @media (max-width:560px){
+    .hero h1{font-size:34px;}
+    .hero-text{max-width:68%;}
+    .hero p{font-size:14.5px;}
+    .hero-art{width:150px;right:-30px;bottom:-4px;opacity:0.3;}
   }
-  .hero::before{top:-24px;right:60px;}
-  .hero::after{bottom:-30px;right:-10px;width:110px;height:110px;}
-  .hero .eyebrow{color:var(--soft-gold);}
-  .hero h1{color:var(--ivory);font-size:40px;line-height:1.15;max-width:520px;}
-  .hero p{color:rgba(244,235,216,0.86);max-width:480px;font-size:15.5px;}
-  .hero-quote{
-    margin-top:28px;font-family:var(--font-serif);font-style:italic;color:var(--soft-gold);
-    font-size:14.5px;border-top:1px solid rgba(215,194,138,0.25);padding-top:16px;max-width:480px;
-  }
-  .feature-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px;}
-  @media (max-width:640px){ .feature-row{grid-template-columns:1fr;} .hero{padding:32px 24px;} .hero h1{font-size:30px;} }
-  .feature-box{
-    background:var(--cream);border:1px solid var(--border-beige);border-radius:10px;
-    padding:18px;text-align:center;
-  }
-  .feature-box .flabel{font-family:var(--font-serif);font-size:17px;color:var(--deep-green);margin-top:4px;}
-  .feature-box .fdesc{font-size:13px;color:var(--olive);margin-top:4px;}
+  @media (max-width:360px){ .hero-text{max-width:100%;} .hero-art{opacity:0.2;} }
+  .hero-divider{height:1px;background:linear-gradient(90deg,transparent,var(--sand),transparent);margin:6px 0 22px;}
 
-  /* ---------- Challenge selection ---------- */
-  .range-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px;}
-  @media (max-width:700px){ .range-grid{grid-template-columns:repeat(2,1fr);} }
-  @media (max-width:460px){ .range-grid{grid-template-columns:1fr;} }
-  .range-card{
-    background:var(--cream);border:1px solid var(--border-beige);border-radius:10px;
-    padding:18px 16px;cursor:pointer;transition:border-color .15s ease, transform .1s ease;
+  .progress-summary{
+    display:flex;align-items:center;gap:18px;width:100%;text-align:left;cursor:pointer;
+    background:var(--cream-raised);border:var(--hairline);border-radius:var(--radius);
+    padding:18px 20px;box-shadow:var(--shadow-sm);color:var(--charcoal);
+    transition:border-color .2s var(--ease), box-shadow .2s var(--ease);
   }
-  .range-card:hover{border-color:var(--gold);}
-  .range-card:active{transform:scale(0.99);}
-  .range-card .rtitle{font-family:var(--font-serif);font-size:19px;color:var(--deep-green);}
-  .range-card .rmeta{font-size:12.5px;color:var(--olive);margin-top:4px;}
-  .range-card .rprogress{font-size:12px;color:var(--success);margin-top:6px;}
+  .progress-summary:hover{border-color:var(--gold-soft);box-shadow:var(--shadow);}
+  .ring{position:relative;width:64px;height:64px;flex:0 0 auto;}
+  .ring svg{width:64px;height:64px;transform:rotate(-90deg);}
+  .ring .ring-track{stroke:var(--sand);}
+  .ring .ring-fill{stroke:var(--gold);transition:stroke-dashoffset .6s var(--ease);}
+  .ring .ring-val{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:500;color:var(--charcoal);}
+  .progress-summary .ps-body{flex:1;min-width:0;}
+  .progress-summary .ps-title{font-family:var(--font-display);font-size:18px;}
+  .progress-summary .ps-meta{font-size:13.5px;color:var(--text-muted);margin-top:2px;}
+  .progress-summary .chev{color:var(--gold);}
+
+  .home-cta{margin:18px 0;}
+  .tile-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .tile{
+    background:var(--cream-raised);border:var(--hairline);border-radius:var(--radius);
+    padding:20px 14px;text-align:center;cursor:pointer;color:var(--charcoal);
+    display:flex;flex-direction:column;align-items:center;gap:6px;box-shadow:var(--shadow-sm);
+    transition:border-color .2s var(--ease), box-shadow .2s var(--ease), transform .12s var(--ease);
+  }
+  .tile:hover{border-color:var(--gold-soft);box-shadow:var(--shadow);}
+  .tile:active{transform:scale(0.99);}
+  .tile .ic{width:30px;height:30px;color:var(--gold);stroke-width:1.3;margin-bottom:4px;}
+  .tile .tlabel{font-family:var(--font-display);font-size:17px;}
+  .tile .tdesc{font-size:12.5px;color:var(--text-muted);line-height:1.45;}
+
+  .feature-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px;}
+  @media (max-width:640px){ .feature-row{grid-template-columns:1fr;gap:0;background:var(--cream-raised);border:var(--hairline);border-radius:var(--radius);padding:4px 18px;} }
+  .feature-box{
+    background:transparent;border:none;border-radius:var(--radius);
+    padding:16px 4px;text-align:center;
+  }
+  @media (min-width:641px){ .feature-box{background:var(--cream-raised);border:var(--hairline);padding:18px;} }
+  @media (max-width:640px){ .feature-box{display:flex;gap:12px;text-align:left;align-items:flex-start;} .feature-box + .feature-box{border-top:var(--hairline);} }
+  .feature-box .fdot{color:var(--gold);display:inline-flex;margin-top:2px;}
+  .feature-box .fdot svg{width:16px;height:16px;}
+  @media (min-width:641px){ .feature-box .fdot{margin-bottom:6px;} }
+  .feature-box .flabel{font-family:var(--font-display);font-size:16px;color:var(--charcoal);}
+  .feature-box .fdesc{font-size:13px;color:var(--text-muted);margin-top:2px;}
+
+  .hero-quote{
+    margin-top:26px;text-align:center;padding:22px 18px 18px;position:relative;
+    border-top:var(--hairline);
+  }
+  .hero-quote .q-ar{font-family:var(--font-ar);direction:rtl;font-size:24px;line-height:1.9;color:var(--olive);}
+  .hero-quote .q-cite{font-size:12.5px;color:var(--text-muted);margin-top:4px;letter-spacing:0.02em;}
+  .ornament{display:flex;justify-content:center;color:var(--gold);}
+  .ornament svg{width:38px;height:12px;}
+  .hero-quote .ornament{position:absolute;top:-7px;left:50%;transform:translateX(-50%);background:var(--cream);padding:0 10px;}
+
+  /* ---------- Summary ---------- */
+  .prose-card p{margin:0 0 14px;color:var(--charcoal);font-size:15px;}
+  .prose-card p:last-child{margin-bottom:0;}
+  .prose-card em{font-style:italic;color:var(--olive);}
+
+  /* ---------- Juz selection ---------- */
+  .range-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media (max-width:640px){ .range-grid{grid-template-columns:1fr;gap:12px;} }
+  .range-card, .full-card, .length-card{
+    display:flex;align-items:center;gap:16px;
+    background:var(--cream-raised);border:var(--hairline);border-radius:var(--radius);
+    padding:18px 18px;cursor:pointer;color:var(--charcoal);box-shadow:var(--shadow-sm);
+    transition:border-color .2s var(--ease), box-shadow .2s var(--ease), transform .12s var(--ease);
+  }
+  .range-card:hover, .full-card:hover, .length-card:hover{border-color:var(--olive);box-shadow:var(--shadow);}
+  .range-card:active, .full-card:active, .length-card:active{transform:scale(0.99);}
+  .rc-icon{
+    width:44px;height:44px;border-radius:12px;flex:0 0 auto;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--sand-tint);color:var(--gold);
+  }
+  .rc-icon .ic{width:22px;height:22px;stroke-width:1.4;}
+  .rc-body{flex:1;min-width:0;}
+  .rtitle{font-family:var(--font-display);font-size:19px;line-height:1.3;color:var(--charcoal);}
+  .rmeta{font-size:13px;color:var(--text-muted);margin-top:2px;}
+  .rc-progress{display:flex;align-items:center;gap:10px;margin-top:10px;}
+  .rc-progress .bar-track{height:5px;}
+  .rc-progress .bar-fill{background:var(--olive);}
+  .rprogress{font-size:12px;color:var(--olive);font-weight:500;white-space:nowrap;}
+  .rc-chev{color:var(--gold);}
   .full-card{
-    margin-top:14px;background:var(--deep-green);color:var(--ivory);border-radius:10px;
-    padding:20px 22px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;
-    border:1px solid var(--forest);
+    margin-top:14px;background:linear-gradient(135deg,var(--cream-raised),var(--sand-tint));
+    border-color:var(--gold-soft);padding:20px;
   }
-  .full-card:hover{opacity:0.95;}
-  .full-card .rtitle{color:var(--ivory);font-size:21px;}
-  .full-card .rmeta{color:var(--soft-gold);}
+  .full-card .rc-icon{background:var(--olive);color:var(--gold-soft);}
+  .full-card .rtitle{font-size:21px;}
+  .full-card .rc-chev{width:36px;height:36px;border-radius:50%;background:var(--olive);color:var(--cream);display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+  .full-card .rc-chev .ic{width:18px;height:18px;}
 
   /* ---------- Length picker ---------- */
-  .length-options{display:grid;gap:12px;margin-top:18px;max-width:420px;}
-  .length-card{
-    background:var(--cream);border:1px solid var(--border-beige);border-radius:10px;padding:18px;
-    cursor:pointer;display:flex;justify-content:space-between;align-items:center;
-  }
-  .length-card:hover{border-color:var(--gold);}
-  .length-card .ltitle{font-family:var(--font-serif);font-size:19px;color:var(--deep-green);}
-  .length-card .lmeta{font-size:12.5px;color:var(--olive);}
+  .length-options{display:grid;gap:12px;}
+  .length-card .ltitle{font-family:var(--font-display);font-size:19px;color:var(--charcoal);}
+  .length-card .lmeta{font-size:13px;color:var(--text-muted);margin-top:2px;}
 
   /* ---------- Quiz ---------- */
-  .quiz-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;font-size:13.5px;color:var(--olive);}
-  .progress-track{height:6px;background:var(--border-beige);border-radius:4px;overflow:hidden;margin-bottom:26px;}
-  .progress-fill{height:100%;background:var(--gold);transition:width .2s ease;}
-
-  .question-card{
-    background:var(--cream);border:1px solid var(--border-beige);border-radius:12px;
-    padding:30px 26px;position:relative;
+  .quiz-top{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px;margin-bottom:14px;}
+  .icon-btn{
+    background:none;border:none;color:var(--text-muted);cursor:pointer;
+    display:inline-flex;align-items:center;gap:4px;font-size:13.5px;padding:8px 6px;border-radius:var(--radius-sm);
   }
+  .icon-btn:hover{color:var(--olive);}
+  .quiz-top .qt-center{text-align:center;}
+  .quiz-top .qt-range{font-family:var(--font-display);font-size:20px;line-height:1.2;}
+  .quiz-top .qt-count{font-size:13px;color:var(--text-muted);margin-top:2px;}
+  .quiz-top .qt-spacer{width:64px;}
+  .quiz-header{display:none;}
+  .progress-track{height:4px;background:var(--sand);border-radius:var(--radius-pill);overflow:hidden;margin-bottom:24px;}
+  .progress-fill{height:100%;background:var(--gold);border-radius:var(--radius-pill);transition:width .4s var(--ease);}
+
+  .question-card{position:relative;}
   .ayah-box{
-    background:var(--ivory);border:1px solid var(--border-beige);border-radius:8px;
-    padding:26px 22px;margin-bottom:16px;position:relative;
+    position:relative;background:var(--cream-raised);
+    border:1px solid var(--gold-soft);border-radius:var(--radius-lg);
+    padding:40px 26px 34px;margin-bottom:22px;box-shadow:var(--shadow);
   }
-  .ayah-box .corner{position:absolute;font-size:18px;color:var(--soft-gold);opacity:0.8;}
-  .ayah-box .corner.tl{top:8px;left:12px;} .ayah-box .corner.tr{top:8px;right:12px;}
+  .ayah-box::before{
+    content:"";position:absolute;inset:6px;border:1px solid rgba(201,168,94,0.22);border-radius:calc(var(--radius-lg) - 5px);pointer-events:none;
+  }
+  .ayah-box .corner{position:absolute;width:30px;height:30px;color:var(--gold);opacity:0.75;pointer-events:none;}
+  .ayah-box .corner svg{width:100%;height:100%;}
+  .ayah-box .corner.tl{top:10px;left:10px;}
+  .ayah-box .corner.tr{top:10px;right:10px;transform:scaleX(-1);}
+  .ayah-box .corner.bl{bottom:10px;left:10px;transform:scaleY(-1);}
+  .ayah-box .corner.br{bottom:10px;right:10px;transform:scale(-1,-1);}
+  .ayah-box .top-orn{position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:var(--cream);padding:0 8px;color:var(--gold);display:flex;}
+  .ayah-box .top-orn svg{width:20px;height:16px;}
   .ayah-arabic{
-    font-family:var(--font-ar);direction:rtl;text-align:center;font-size:27px;line-height:2.1;
-    color:var(--charcoal);
+    font-family:var(--font-ar);direction:rtl;unicode-bidi:isolate;text-align:center;
+    font-size:30px;line-height:2.15;color:var(--charcoal);
+    overflow-wrap:break-word;word-break:normal;
   }
-  .ayah-arabic .blank{color:var(--gold);letter-spacing:2px;}
-  .compare-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-  @media (max-width:560px){ .compare-row{grid-template-columns:1fr;} }
-  .compare-box{
-    background:var(--ivory);border:1px solid var(--border-beige);border-radius:8px;padding:18px 14px;
-    cursor:pointer;
-  }
-  .compare-box.selected{border-color:var(--gold);border-width:2px;}
-  .compare-label{font-size:12px;color:var(--olive);margin-bottom:8px;text-align:center;}
-  .compare-arabic{font-family:var(--font-ar);direction:rtl;text-align:center;font-size:20px;line-height:1.9;}
+  @media (max-width:560px){ .ayah-arabic{font-size:26px;} .ayah-box{padding:36px 18px 28px;} }
+  .ayah-arabic .blank{color:var(--gold);letter-spacing:3px;white-space:nowrap;}
 
-  .prompt-text{font-size:15.5px;color:var(--charcoal);margin:16px 0 14px;font-weight:500;}
-  .options{display:flex;flex-direction:column;gap:10px;}
-  .option{
-    display:flex;align-items:center;gap:12px;background:var(--ivory);
-    border:1px solid var(--border-beige);border-radius:8px;padding:13px 16px;cursor:pointer;
-    font-size:15px;transition:border-color .12s ease, background .12s ease;
+  .prompt-text{font-size:15px;color:var(--charcoal);margin:4px 2px 16px;line-height:1.6;}
+  .compare-row{display:grid;grid-template-columns:1fr;gap:14px;}
+  @media (min-width:760px){ .compare-row{grid-template-columns:1fr 1fr;} }
+  .compare-box{
+    position:relative;background:var(--cream-raised);border:var(--hairline);border-radius:var(--radius);
+    padding:20px 18px 18px;cursor:pointer;box-shadow:var(--shadow-sm);
+    transition:border-color .2s var(--ease), box-shadow .2s var(--ease), background .2s var(--ease);
   }
-  .option:hover{border-color:var(--gold);}
-  .option.selected{border-color:var(--gold);border-width:2px;background:var(--cream);}
+  .compare-box:hover{border-color:var(--gold-soft);}
+  .compare-box.selected{border-color:var(--olive);box-shadow:0 0 0 1px var(--olive), var(--shadow);}
+  .compare-label{display:flex;justify-content:center;margin-bottom:8px;}
+  .compare-arabic{font-family:var(--font-ar);direction:rtl;unicode-bidi:isolate;text-align:center;font-size:23px;line-height:2.05;color:var(--charcoal);overflow-wrap:break-word;}
+  @media (max-width:560px){ .compare-arabic{font-size:21px;} }
+
+  .options{display:flex;flex-direction:column;gap:12px;}
+  .option{
+    display:flex;align-items:center;gap:14px;background:var(--cream-raised);
+    border:var(--hairline);border-radius:var(--radius);padding:16px 18px;min-height:64px;cursor:pointer;
+    font-size:15px;box-shadow:var(--shadow-sm);
+    transition:border-color .2s var(--ease), box-shadow .2s var(--ease), background .2s var(--ease);
+  }
+  .option:hover{border-color:var(--gold-soft);}
+  .option.selected{border-color:var(--olive);box-shadow:0 0 0 1px var(--olive), var(--shadow);}
   .option.correct{border-color:var(--success);background:var(--success-bg);}
   .option.incorrect{border-color:var(--error);background:var(--error-bg);}
   .opt-badge{
-    width:26px;height:26px;border-radius:50%;border:1px solid var(--border-beige);
-    display:flex;align-items:center;justify-content:center;font-size:12.5px;color:var(--olive);flex:0 0 auto;
+    width:28px;height:28px;border-radius:50%;border:1.5px solid var(--gold-soft);background:var(--cream);
+    display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:var(--text-muted);flex:0 0 auto;
+    transition:all .2s var(--ease);
   }
-  .option.selected .opt-badge{border-color:var(--gold);color:var(--charcoal);}
-  .option.correct .opt-badge{border-color:var(--success);color:var(--success);}
-  .option.incorrect .opt-badge{border-color:var(--error);color:var(--error);}
-  .opt-arabic{font-family:var(--font-ar);direction:rtl;font-size:17px;flex:1;}
+  .option.selected .opt-badge, .compare-box.selected .opt-badge{border-color:var(--olive);background:var(--olive);color:var(--cream);}
+  .opt-arabic{font-family:var(--font-ar);direction:rtl;unicode-bidi:isolate;font-size:22px;line-height:1.9;flex:1;text-align:right;overflow-wrap:break-word;min-width:0;}
 
-  .quiz-footer{display:flex;justify-content:space-between;margin-top:22px;}
+  .quiz-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:26px;}
+  .quiz-footer.single{justify-content:stretch;}
+  .quiz-footer .btn-primary{flex:1;max-width:100%;}
+  @media (min-width:761px){ .quiz-footer .btn-primary{flex:0 1 320px;margin-left:auto;} }
 
   /* ---------- Feedback ---------- */
-  .fb-banner{
-    display:flex;align-items:center;gap:12px;border-radius:10px;padding:18px 20px;margin-bottom:18px;
+  .fb-head{text-align:center;margin:6px 0 22px;}
+  .fb-icon{
+    width:58px;height:58px;border-radius:50%;margin:0 auto 12px;
+    display:flex;align-items:center;justify-content:center;
   }
-  .fb-banner.correct{background:var(--success-bg);color:var(--success);}
-  .fb-banner.incorrect{background:var(--error-bg);color:var(--error);}
-  .fb-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-    font-size:17px;border:1.5px solid currentColor;flex:0 0 auto;}
-  .fb-banner .fb-title{font-family:var(--font-serif);font-size:20px;}
-  .fb-section{margin-bottom:16px;}
-  .fb-label{font-size:12px;color:var(--olive);text-transform:none;margin-bottom:6px;}
-  .fb-answer-row{display:flex;align-items:center;gap:10px;font-size:15.5px;}
-  .fb-answer-row .opt-badge{border-color:var(--success);color:var(--success);}
-  .ref-box{background:var(--ivory);border:1px solid var(--border-beige);border-radius:8px;padding:18px;margin-top:8px;}
-  .ref-cite{font-size:13px;color:var(--olive);margin-top:10px;}
-  .related-list{font-size:14px;color:var(--charcoal);margin-top:4px;}
-  .explanation-box{font-size:14.5px;line-height:1.7;color:var(--charcoal);}
+  .fb-icon .ic{width:28px;height:28px;stroke-width:1.8;}
+  .fb-head.correct .fb-icon{background:var(--success-bg);color:var(--success);box-shadow:0 0 0 6px rgba(63,122,90,0.06);}
+  .fb-head.incorrect .fb-icon{background:var(--error-bg);color:var(--error);box-shadow:0 0 0 6px rgba(166,90,68,0.06);}
+  .fb-title{font-family:var(--font-display);font-size:30px;line-height:1.2;}
+  .fb-head.correct .fb-title{color:var(--olive);}
+  .fb-head.incorrect .fb-title{color:var(--error);}
+  .fb-section{margin-bottom:14px;}
+  .fb-label{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--text-muted);margin-bottom:10px;}
+  .fb-label .ic{width:17px;height:17px;color:var(--gold);}
+  .fb-answer{
+    background:var(--cream-raised);border:var(--hairline);border-radius:var(--radius);padding:14px 18px;
+    display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-sm);
+  }
+  .fb-answer .check{color:var(--success);display:flex;}
+  .fb-answer .check .ic{width:20px;height:20px;stroke-width:1.8;}
+  .fb-answer-text{font-size:15.5px;flex:1;min-width:0;}
+  .fb-answer-text.opt-arabic{font-size:21px;}
+  .ref-box{
+    background:var(--cream-raised);border:var(--hairline);border-radius:var(--radius);
+    padding:18px 18px 16px;box-shadow:var(--shadow-sm);text-align:center;
+  }
+  .ref-box .ayah-arabic{font-size:24px;line-height:2.05;}
+  @media (max-width:560px){ .ref-box .ayah-arabic{font-size:22px;} }
+  .ref-cite{
+    display:inline-flex;align-items:center;gap:6px;margin-top:12px;
+    font-size:12.5px;font-weight:500;color:var(--charcoal);
+    background:var(--sand-tint);border:1px solid var(--sand);border-radius:var(--radius-pill);padding:5px 14px;
+  }
+  .related-list{font-size:13.5px;color:var(--text-muted);margin-top:10px;}
+  mark.diff{background:none;color:var(--olive);border-bottom:2px solid var(--gold);padding:0 1px;}
+  .note-box{
+    background:var(--sand-tint);border:1px solid var(--sand);border-radius:var(--radius);padding:16px 18px;
+  }
+  .note-box .fb-label{color:var(--charcoal);margin-bottom:6px;}
+  .explanation-box{font-size:14.5px;line-height:1.75;color:var(--charcoal);overflow-wrap:break-word;}
 
   /* ---------- Results ---------- */
-  .results-card{text-align:center;padding:44px 30px;}
-  .score-big{font-family:var(--font-serif);font-size:56px;color:var(--deep-green);}
-  .score-sub{color:var(--olive);margin-top:4px;}
+  .results-head{text-align:center;margin:8px 0 24px;}
+  .results-head .trophy{color:var(--gold);display:inline-flex;margin-bottom:8px;}
+  .results-head .trophy svg{width:64px;height:64px;stroke-width:1.1;}
+  .results-head h2{font-size:30px;margin-bottom:2px;}
+  .results-head .rh-range{color:var(--gold);font-family:var(--font-display);font-size:18px;}
+  .results-card{padding:28px 22px 22px;text-align:center;}
+  .score-big{font-family:var(--font-display);font-size:52px;line-height:1.1;color:var(--olive);}
+  .score-sub{color:var(--text-muted);margin-top:4px;font-size:14px;}
+  .score-bar{height:6px;background:var(--sand);border-radius:var(--radius-pill);overflow:hidden;margin:18px auto 0;max-width:320px;}
+  .score-bar > div{height:100%;background:linear-gradient(90deg,var(--gold),var(--olive));border-radius:var(--radius-pill);}
+  .summary-list{margin-top:14px;padding:6px 20px;}
+  .summary-row{display:flex;align-items:center;gap:12px;padding:13px 0;font-size:14.5px;}
+  .summary-row + .summary-row{border-top:var(--hairline);}
+  .summary-row .ic{width:19px;height:19px;color:var(--text-muted);}
+  .summary-row .sr-label{flex:1;color:var(--charcoal);}
+  .summary-row .sr-val{font-size:17px;font-weight:500;}
+  .summary-row.ok .ic, .summary-row.ok .sr-val{color:var(--success);}
+  .summary-row.bad .ic, .summary-row.bad .sr-val{color:var(--error);}
+  .summary-row.acc .sr-val{color:var(--olive);}
+  .results-actions{display:flex;flex-direction:column;gap:12px;margin-top:22px;}
+  @media (min-width:561px){ .results-actions{flex-direction:row-reverse;} .results-actions .btn{flex:1;} }
 
   /* ---------- Progress screen ---------- */
-  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px;}
+  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
   @media (max-width:640px){ .stat-grid{grid-template-columns:repeat(2,1fr);} }
-  .stat-box{background:var(--cream);border:1px solid var(--border-beige);border-radius:10px;padding:18px 14px;text-align:center;}
-  .stat-num{font-family:var(--font-serif);font-size:28px;color:var(--deep-green);}
-  .stat-label{font-size:12.5px;color:var(--olive);margin-top:2px;}
-  .bar-row{display:flex;align-items:center;gap:12px;margin-bottom:12px;font-size:13.5px;}
-  .bar-row .bar-label{width:88px;color:var(--olive);flex:0 0 auto;}
-  .bar-track{flex:1;height:8px;background:var(--border-beige);border-radius:4px;overflow:hidden;}
-  .bar-fill{height:100%;background:var(--forest);}
-  .bar-row .bar-pct{width:40px;text-align:right;color:var(--charcoal);flex:0 0 auto;}
-  .empty-state{padding:40px 20px;text-align:center;color:var(--olive);}
+  .stat-box{background:var(--cream-raised);border:var(--hairline);border-radius:var(--radius);padding:18px 14px;text-align:center;box-shadow:var(--shadow-sm);}
+  .stat-box .ic{width:20px;height:20px;color:var(--gold);margin-bottom:6px;}
+  .stat-num{font-family:var(--font-display);font-size:30px;line-height:1.15;color:var(--olive);}
+  .stat-label{font-size:12.5px;color:var(--text-muted);margin-top:4px;}
+  .bar-row{display:flex;align-items:center;gap:14px;padding:9px 0;font-size:13.5px;}
+  .bar-row .bar-label{width:92px;color:var(--charcoal);flex:0 0 auto;}
+  .bar-track{flex:1;height:6px;background:var(--sand);border-radius:var(--radius-pill);overflow:hidden;}
+  .bar-fill{height:100%;background:var(--gold);border-radius:var(--radius-pill);transition:width .5s var(--ease);}
+  .bar-row .bar-pct{width:42px;text-align:right;color:var(--text-muted);flex:0 0 auto;font-variant-numeric:tabular-nums;}
+  .weak-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;font-size:14px;}
+  .weak-row + .weak-row{border-top:var(--hairline);}
+  .weak-row .w-sig{color:var(--charcoal);min-width:0;overflow-wrap:anywhere;}
+  .weak-row .w-count{font-size:12.5px;color:var(--error);background:var(--error-bg);border-radius:var(--radius-pill);padding:3px 10px;white-space:nowrap;}
+  .empty-state{padding:36px 22px;text-align:center;color:var(--text-muted);}
+  .empty-state .ic{width:34px;height:34px;color:var(--gold);stroke-width:1.3;margin-bottom:8px;}
 
-  section-title-row{display:flex;justify-content:space-between;align-items:baseline;}
-  .back-link{background:none;border:none;color:var(--olive);font-size:13.5px;cursor:pointer;margin-bottom:14px;display:inline-flex;align-items:center;gap:4px;padding:0;}
-  .back-link:hover{color:var(--charcoal);}
-
-  footer.page-footer{padding:18px 24px 30px;text-align:center;font-size:12px;color:var(--olive);}
+  footer.page-footer{padding:8px 24px 30px;text-align:center;font-size:12px;color:var(--text-subtle);}
+  @media (max-width:760px){ footer.page-footer{padding:0 24px calc(var(--bottom-nav-h) + 24px + env(safe-area-inset-bottom));} }
 
   [tabindex]:focus-visible, button:focus-visible{
-    outline:2px solid var(--gold);outline-offset:2px;
+    outline:2px solid var(--gold);outline-offset:3px;
   }
   @media (prefers-reduced-motion: reduce){
-    *{transition:none !important;}
+    *{transition:none !important;animation:none !important;}
   }
 </style>
 </head>
@@ -40645,7 +40859,17 @@ const I18N = {
     weakItemsTitle: 'Ayat yang Perlu Diberi Perhatian',
     timesWrong: '{count}× tersilap',
     resetProgress: 'Set semula kemajuan',
-    resetConfirm: 'Set semula semua kemajuan? Tindakan ini tidak boleh dibatalkan.'
+    resetConfirm: 'Set semula semua kemajuan? Tindakan ini tidak boleh dibatalkan.',
+
+    // Labels added for the redesigned layout (UI chrome only — no new data)
+    homeProgressMeta: '{attempted} soalan dijawab · {correct} betul',
+    homeProgressEmpty: 'Belum ada percubaan lagi',
+    tileLearnLabel: 'Ketahui',
+    tileProgressDesc: 'Jejak peningkatan anda',
+    resultsTitle: 'Cabaran Selesai',
+    resultsTotal: 'Jumlah soalan',
+    resultsIncorrect: 'Jawapan salah',
+    accuracyLabel: 'Ketepatan'
   },
   en: {
     navHome: 'Home', navChallenge: 'Challenge', navProgress: 'Progress',
@@ -40732,7 +40956,17 @@ const I18N = {
     weakItemsTitle: 'Ayat That Need Attention',
     timesWrong: '{count}× missed',
     resetProgress: 'Reset progress',
-    resetConfirm: 'Reset all progress? This action cannot be undone.'
+    resetConfirm: 'Reset all progress? This action cannot be undone.',
+
+    // Labels added for the redesigned layout (UI chrome only — no new data)
+    homeProgressMeta: '{attempted} questions answered · {correct} correct',
+    homeProgressEmpty: 'No attempts yet',
+    tileLearnLabel: 'Learn',
+    tileProgressDesc: 'Track your improvement',
+    resultsTitle: 'Challenge Complete',
+    resultsTotal: 'Total questions',
+    resultsIncorrect: 'Incorrect answers',
+    accuracyLabel: 'Accuracy'
   }
 };
 
@@ -41017,32 +41251,129 @@ function go(screen, extra){
 // ===================== Rendering =====================
 const app = document.getElementById('app');
 
+// ---------- Presentation helpers (visual only — no effect on quiz logic) ----------
+// Minimal line icon set (1.5px stroke, inherits currentColor).
+const ICON_PATHS = {
+  arch:'<path d="M5 21V11a7 7 0 0 1 14 0v10"/><path d="M9 21v-7a3 3 0 0 1 6 0v7"/><path d="M12 2.5l1.2 1.5L12 5.5 10.8 4z"/><path d="M3 21h18"/>',
+  home:'<path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"/>',
+  trophy:'<path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4"/><path d="M12 13v4M9 20h6M10 17h4"/>',
+  book:'<path d="M12 6.5C10.5 5.3 8.3 4.8 4 5v13c4.3-.2 6.5.3 8 1.5 1.5-1.2 3.7-1.7 8-1.5V5c-4.3-.2-6.5.3-8 1.5z"/><path d="M12 6.5v13"/>',
+  chart:'<path d="M5 20V12M10 20V8M15 20v-5M20 20V4"/>',
+  chevL:'<path d="M15 5l-7 7 7 7"/>',
+  chevR:'<path d="M9 5l7 7-7 7"/>',
+  arrowR:'<path d="M5 12h14M13 6l6 6-6 6"/>',
+  check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  x:'<path d="M6 6l12 12M18 6 6 18"/>',
+  info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.6v.1"/>',
+  play:'<path d="M8 5.5v13l10-6.5z"/>',
+  refresh:'<path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4v4.5h-4.5"/>',
+  clipboard:'<rect x="5" y="4.5" width="14" height="16" rx="2"/><path d="M9 4.5h6v2.5H9zM8.5 11h7M8.5 15h5"/>',
+  target:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>',
+  layers:'<path d="M12 4 3 9l9 5 9-5z"/><path d="M3 14l9 5 9-5"/>',
+  star:'<path d="M12 3.5l2.2 5.3 5.8.5-4.4 3.8 1.3 5.6L12 15.8l-4.9 2.9 1.3-5.6L4 9.3l5.8-.5z"/>',
+  diamond:'<path d="M12 3l9 9-9 9-9-9z"/>'
+};
+function icon(name){ return `<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">${ICON_PATHS[name]||''}</svg>`; }
+
+// Thin gold geometric corner ornament for Quranic text cards.
+const CORNER_SVG = '<svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M2 28V10a8 8 0 0 1 8-8h18"/><path d="M6 28V12a6 6 0 0 1 6-6h16"/><path d="M10 10l2.5 2.5L10 15l-2.5-2.5z"/></svg>';
+const TOP_ORNAMENT_SVG = '<svg viewBox="0 0 20 16" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M10 1l4 7-4 7-4-7z"/><path d="M1 8h4M15 8h4"/><circle cx="10" cy="8" r="1.4"/></svg>';
+const DIVIDER_ORNAMENT_SVG = '<svg viewBox="0 0 38 12" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M1 6h12M25 6h12"/><path d="M19 1l5 5-5 5-5-5z"/></svg>';
+function ayahCorners(){
+  return `<span class="top-orn">${TOP_ORNAMENT_SVG}</span>` +
+    ['tl','tr','bl','br'].map(c=>`<span class="corner ${c}">${CORNER_SVG}</span>`).join('');
+}
+
+// Subtle line-art masjid silhouette for the dashboard (decorative only).
+const MASJID_SVG = `<svg class="hero-art" viewBox="0 0 260 210" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <path d="M4 206h252"/>
+  <path d="M60 206v-70h120v70"/>
+  <path d="M74 136c0-30 20-50 46-62 26 12 46 32 46 62"/>
+  <path d="M120 74v-14M120 52a4 4 0 1 0 0.1 0M116 46c2-4 6-4 8 0"/>
+  <path d="M86 206v-34a14 14 0 0 1 28 0v34M126 206v-34a14 14 0 0 1 28 0v34"/>
+  <path d="M100 152a8 8 0 0 1 16 0v8h-16zM124 152a8 8 0 0 1 16 0v8h-16z"/>
+  <path d="M30 206v-44h30M30 162c0-12 8-20 15-24 7 4 15 12 15 24"/>
+  <path d="M40 206v-16a5 5 0 0 1 10 0v16"/>
+  <path d="M180 162h30v44M180 162c0-12 8-20 15-24 7 4 15 12 15 24"/>
+  <path d="M190 206v-16a5 5 0 0 1 10 0v16"/>
+  <path d="M226 206V70M242 206V70"/>
+  <path d="M222 70h24M224 70c0-14 4-24 10-30 6 6 10 16 10 30"/>
+  <path d="M234 40V28M234 22a3 3 0 1 0 .1 0"/>
+  <path d="M220 104h28M222 108h24M220 150h28M222 154h24"/>
+  <path d="M231 124a3 3 0 0 1 6 0v10h-6zM231 176a3 3 0 0 1 6 0v10h-6z"/>
+  <path d="M8 206c2-10 6-14 10-14s6 6 6 14M16 206c3-16 9-22 14-22"/>
+</svg>`;
+
+// Visually emphasise the words that differ between two similar ayat.
+// Display-only: tokens are re-emitted in their original order with their
+// original whitespace, so the rendered text is character-for-character the
+// same as the source — only <mark> wrappers are added around differing words.
+// Skipped when the two ayat differ in most of their words (e.g. "before/after"
+// contexts), where highlighting would be noise rather than insight.
+function diffHighlightHtml(text, other){
+  text = text || ''; other = other || '';
+  if(!other || text===other) return escapeHtml(text);
+  const toks = text.split(/(\s+)/);
+  const aIdx = []; toks.forEach((tk,i)=>{ if(i%2===0 && tk!=='') aIdx.push(i); });
+  const a = aIdx.map(i=>toks[i]);
+  const b = other.split(/\s+/).filter(Boolean);
+  if(!a.length || !b.length) return escapeHtml(text);
+  const dp = Array.from({length:a.length+1}, ()=>new Array(b.length+1).fill(0));
+  for(let i=a.length-1;i>=0;i--) for(let j=b.length-1;j>=0;j--)
+    dp[i][j] = a[i]===b[j] ? dp[i+1][j+1]+1 : Math.max(dp[i+1][j], dp[i][j+1]);
+  const keep = new Set();
+  let i=0, j=0;
+  while(i<a.length && j<b.length){
+    if(a[i]===b[j]){ keep.add(i); i++; j++; }
+    else if(dp[i+1][j]>=dp[i][j+1]) i++; else j++;
+  }
+  const changed = a.length - keep.size;
+  if(changed===0 || changed/a.length > 0.5) return escapeHtml(text);
+  const markTok = new Set(aIdx.filter((_,k)=>!keep.has(k)));
+  return toks.map((tk,k)=> markTok.has(k) ? `<mark class="diff">${escapeHtml(tk)}</mark>` : escapeHtml(tk)).join('');
+}
+
 function render(){
-  app.innerHTML = navHtml() + '<main>' + screenHtml() + '</main>' + footerHtml();
+  app.innerHTML = navHtml() + '<main>' + screenHtml() + '</main>' + footerHtml() + bottomNavHtml();
   bindEvents();
 }
 
+const NAV_ITEMS = [
+  {key:'home', labelKey:'navHome', icon:'home'},
+  {key:'challenge', labelKey:'navChallenge', icon:'trophy'},
+  {key:'progress', labelKey:'navProgress', icon:'chart'},
+];
+function activeNavKey(){
+  return (STATE.screen==='summary') ? 'home' :
+         (['quiz','feedback','results','length'].includes(STATE.screen)) ? 'challenge' : STATE.screen;
+}
+
 function navHtml(){
-  const items = [
-    {key:'home', labelKey:'navHome'},
-    {key:'challenge', labelKey:'navChallenge'},
-    {key:'progress', labelKey:'navProgress'},
-  ];
-  const active = (STATE.screen==='summary') ? 'home' :
-                 (['quiz','feedback','results','length'].includes(STATE.screen)) ? 'challenge' : STATE.screen;
+  const active = activeNavKey();
   return `
-  <div class="nav">
-    <div class="brand"><span class="mark">Q</span> QURRA</div>
-    <div class="nav-right">
-      <div class="navlinks">
-        ${items.map(it=>`<button data-nav="${it.key}" class="${active===it.key?'active':''}">${t(it.labelKey)}</button>`).join('')}
-      </div>
-      <div class="lang-toggle" id="langToggle" role="group" aria-label="Language / Bahasa">
-        <button type="button" data-lang="ms" class="${LANG==='ms'?'active':''}" aria-pressed="${LANG==='ms'}">BM</button>
-        <button type="button" data-lang="en" class="${LANG==='en'?'active':''}" aria-pressed="${LANG==='en'}">EN</button>
+  <header class="nav">
+    <div class="nav-inner">
+      <button type="button" class="brand" data-nav="home" aria-label="QURRA — ${t('navHome')}"><span class="mark">${icon('arch')}</span> QURRA</button>
+      <div class="nav-right">
+        <nav class="navlinks">
+          ${NAV_ITEMS.map(it=>`<button data-nav="${it.key}" class="${active===it.key?'active':''}">${t(it.labelKey)}</button>`).join('')}
+        </nav>
+        <div class="lang-toggle" id="langToggle" role="group" aria-label="Language / Bahasa">
+          <button type="button" data-lang="ms" class="${LANG==='ms'?'active':''}" aria-pressed="${LANG==='ms'}">BM</button>
+          <button type="button" data-lang="en" class="${LANG==='en'?'active':''}" aria-pressed="${LANG==='en'}">EN</button>
+        </div>
       </div>
     </div>
-  </div>`;
+  </header>`;
+}
+
+// Mobile tab bar — same three destinations as the header links.
+function bottomNavHtml(){
+  const active = activeNavKey();
+  return `
+  <nav class="bottom-nav" aria-label="${t('navHome')} / ${t('navChallenge')} / ${t('navProgress')}">
+    ${NAV_ITEMS.map(it=>`<button type="button" data-nav="${it.key}" class="${active===it.key?'active':''}" ${active===it.key?'aria-current="page"':''}>${icon(it.icon)}<span>${t(it.labelKey)}</span></button>`).join('')}
+  </nav>`;
 }
 
 function footerHtml(){
@@ -41064,36 +41395,70 @@ function screenHtml(){
 }
 
 // ---------- Home ----------
+function ringHtml(pct, label){
+  const r = 27, c = 2*Math.PI*r;
+  const off = c * (1 - Math.max(0, Math.min(100, pct||0))/100);
+  return `<div class="ring">
+    <svg viewBox="0 0 64 64" aria-hidden="true"><circle class="ring-track" cx="32" cy="32" r="${r}" fill="none" stroke-width="4"/><circle class="ring-fill" cx="32" cy="32" r="${r}" fill="none" stroke-width="4" stroke-linecap="round" stroke-dasharray="${c.toFixed(2)}" stroke-dashoffset="${off.toFixed(2)}"/></svg>
+    <div class="ring-val">${label}</div>
+  </div>`;
+}
+
 function homeHtml(){
+  // Same figures (and same formula) as the Progress screen — nothing new is computed.
+  const s = PROGRESS.stats;
+  const accuracy = s.attempted? Math.round(s.correct/s.attempted*100) : 0;
   return `
-  <div class="hero">
-    <div class="eyebrow">${t('heroEyebrow')}</div>
-    <h1>${t('heroTitle')}</h1>
-    <p>${t('heroDesc')}</p>
-    <div style="margin-top:22px;display:flex;gap:12px;flex-wrap:wrap;">
-      <button class="btn btn-accent" data-nav="challenge">${t('heroStart')}</button>
-      <button class="btn btn-secondary" style="border-color:rgba(244,235,216,0.4);color:var(--ivory);" data-nav="summary">${t('heroSummary')}</button>
+  <section class="hero">
+    <div class="hero-text">
+      <div class="eyebrow">${t('heroEyebrow')}</div>
+      <h1>${t('heroTitle')}</h1>
+      <p>${t('heroDesc')}</p>
     </div>
-    <div class="hero-quote">&ldquo;إِنَّا نَحْنُ نَزَّلْنَا الذِّكْرَ وَإِنَّا لَهُوٰ لَحَٰفِظُونَ&rdquo;<br>${t('heroQuoteCite')}</div>
+    ${MASJID_SVG}
+  </section>
+  <div class="hero-divider"></div>
+  <button type="button" class="progress-summary" data-nav="progress">
+    ${ringHtml(accuracy, s.attempted ? accuracy+'%' : '&mdash;')}
+    <div class="ps-body">
+      <div class="ps-title">${t('navProgress')}</div>
+      <div class="ps-meta">${s.attempted ? t('homeProgressMeta',{attempted:s.attempted, correct:s.correct}) : t('homeProgressEmpty')}</div>
+    </div>
+    <span class="chev">${icon('chevR')}</span>
+  </button>
+  <div class="home-cta">
+    <button class="btn btn-primary btn-block" data-nav="challenge">${icon('play')}${t('heroStart')}</button>
+  </div>
+  <div class="tile-row">
+    <button type="button" class="tile" data-nav="summary">${icon('book')}<span class="tlabel">${t('tileLearnLabel')}</span><span class="tdesc">${t('heroSummary')}</span></button>
+    <button type="button" class="tile" data-nav="progress">${icon('chart')}<span class="tlabel">${t('navProgress')}</span><span class="tdesc">${t('tileProgressDesc')}</span></button>
   </div>
   <div class="feature-row">
-    <div class="feature-box"><div class="flabel">${t('featureBox1Label')}</div><div class="fdesc">${t('featureBox1Desc')}</div></div>
-    <div class="feature-box"><div class="flabel">${t('featureBox2Label')}</div><div class="fdesc">${t('featureBox2Desc',{count:DATA.length})}</div></div>
-    <div class="feature-box"><div class="flabel">${t('featureBox3Label')}</div><div class="fdesc">${t('featureBox3Desc')}</div></div>
+    <div class="feature-box"><span class="fdot">${icon('diamond')}</span><div><div class="flabel">${t('featureBox1Label')}</div><div class="fdesc">${t('featureBox1Desc')}</div></div></div>
+    <div class="feature-box"><span class="fdot">${icon('diamond')}</span><div><div class="flabel">${t('featureBox2Label')}</div><div class="fdesc">${t('featureBox2Desc',{count:DATA.length})}</div></div></div>
+    <div class="feature-box"><span class="fdot">${icon('diamond')}</span><div><div class="flabel">${t('featureBox3Label')}</div><div class="fdesc">${t('featureBox3Desc')}</div></div></div>
+  </div>
+  <div class="hero-quote">
+    <span class="ornament">${DIVIDER_ORNAMENT_SVG}</span>
+    <div class="q-ar">&ldquo;إِنَّا نَحْنُ نَزَّلْنَا الذِّكْرَ وَإِنَّا لَهُوٰ لَحَٰفِظُونَ&rdquo;</div>
+    <div class="q-cite">${t('heroQuoteCite')}</div>
   </div>`;
 }
 
 function summaryHtml(){
   return `
   <button class="back-link" data-nav="home">${t('summaryBack')}</button>
-  <h2>${t('summaryTitle')}</h2>
-  <div class="card">
+  <div class="page-head">
+    <span class="head-icon">${icon('book')}</span>
+    <h2>${t('summaryTitle')}</h2>
+  </div>
+  <div class="card prose-card">
     <p>${t('summaryP1')}</p>
     <p>${t('summaryP2')}</p>
     <p>${t('summaryP3')}</p>
   </div>
-  <div style="margin-top:20px;">
-    <button class="btn btn-primary" data-nav="challenge">${t('summaryStart')}</button>
+  <div style="margin-top:22px;">
+    <button class="btn btn-primary btn-block" data-nav="challenge">${t('summaryStart')}</button>
   </div>`;
 }
 
@@ -41113,6 +41478,13 @@ function bestForRange(key){
   return r;
 }
 
+// Existing "best score" indicator, shown as text plus a thin bar of the same ratio.
+function bestProgressHtml(best){
+  if(!best) return '';
+  const pct = best.best_total ? Math.round(best.best_correct/best.best_total*100) : 0;
+  return `<div class="rc-progress"><div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div><div class="rprogress">${t('best',{correct:best.best_correct, total:best.best_total})}</div></div>`;
+}
+
 function challengeHtml(){
   const cards = RANGES.map(r=>{
     const st = rangeStats(r);
@@ -41122,21 +41494,33 @@ function challengeHtml(){
       : t('metaGeneric', {occ:st.occCount, groups:st.groupCount});
     return `
     <div class="range-card" data-range="${r.key}" tabindex="0" role="button">
-      <div class="rtitle">${r.label}</div>
-      <div class="rmeta">${metaText}</div>
-      ${best ? `<div class="rprogress">${t('best',{correct:best.best_correct, total:best.best_total})}</div>` : ''}
+      <span class="rc-icon">${icon('book')}</span>
+      <div class="rc-body">
+        <div class="rtitle">${r.label}</div>
+        <div class="rmeta">${metaText}</div>
+        ${bestProgressHtml(best)}
+      </div>
+      <span class="rc-chev">${icon('chevR')}</span>
     </div>`;
   }).join('');
   const fst = rangeStats(FULL_RANGE);
   const fbest = bestForRange(FULL_RANGE.key);
   const fMetaText = fst.curated ? t('metaCuratedFull',{groups:fst.groupCount}) : t('metaGenericFull',{occ:fst.occCount});
   return `
-  <h2>${t('challengeTitle')}</h2>
-  <p class="muted">${t('challengeSub')}</p>
+  <div class="page-head">
+    <span class="head-icon">${icon('layers')}</span>
+    <h2>${t('challengeTitle')}</h2>
+    <p class="muted">${t('challengeSub')}</p>
+  </div>
   <div class="range-grid">${cards}</div>
   <div class="full-card" data-range="${FULL_RANGE.key}" tabindex="0" role="button">
-    <div><div class="rtitle">${t('fullRangeTitle')}</div><div class="rmeta">${t('fullChallengeLabel')} &middot; ${fMetaText}</div></div>
-    <div style="text-align:right;">${fbest? `<div class="rprogress" style="color:var(--soft-gold)">${t('best',{correct:fbest.best_correct, total:fbest.best_total})}</div>`:''}<div style="font-size:22px;">&rarr;</div></div>
+    <span class="rc-icon">${icon('star')}</span>
+    <div class="rc-body">
+      <div class="rtitle">${t('fullRangeTitle')}</div>
+      <div class="rmeta">${t('fullChallengeLabel')} &middot; ${fMetaText}</div>
+      ${bestProgressHtml(fbest)}
+    </div>
+    <span class="rc-chev">${icon('arrowR')}</span>
   </div>`;
 }
 
@@ -41156,16 +41540,21 @@ function lengthHtml(){
     : t('introGeneric', {occ:st.occCount, groups:st.groupCount});
   return `
   <button class="back-link" data-nav="challenge">${t('lengthBack')}</button>
-  <h2>${range.label}</h2>
-  <p class="muted">${introText}</p>
+  <div class="page-head">
+    <span class="head-icon">${icon('book')}</span>
+    <h2>${range.label}</h2>
+    <p class="muted">${introText}</p>
+  </div>
   <div class="length-options">
     <div class="length-card" data-length="${quickN}" tabindex="0" role="button">
-      <div><div class="ltitle">${t('quickPractice')}</div><div class="lmeta">${t('questionsCount',{n:quickN})}</div></div>
-      <div style="font-size:20px;color:var(--gold);">&rarr;</div>
+      <span class="rc-icon">${icon('play')}</span>
+      <div class="rc-body"><div class="ltitle">${t('quickPractice')}</div><div class="lmeta">${t('questionsCount',{n:quickN})}</div></div>
+      <span class="rc-chev">${icon('chevR')}</span>
     </div>
     <div class="length-card" data-length="${fullN}" tabindex="0" role="button">
-      <div><div class="ltitle">${t('fullPractice')}</div><div class="lmeta">${t('questionsCount',{n:fullN})}</div></div>
-      <div style="font-size:20px;color:var(--gold);">&rarr;</div>
+      <span class="rc-icon">${icon('layers')}</span>
+      <div class="rc-body"><div class="ltitle">${t('fullPractice')}</div><div class="lmeta">${t('questionsCount',{n:fullN})}</div></div>
+      <span class="rc-chev">${icon('chevR')}</span>
     </div>
   </div>`;
 }
@@ -41175,70 +41564,85 @@ function currentQuestion(){
   return STATE.quiz.questions[STATE.quiz.index];
 }
 
+function compareBoxesHtml(pair){
+  return `<div class="compare-row">${pair.map((p,i)=>`
+      <div class="compare-box" data-oi="${i}" tabindex="0" role="button">
+        <div class="compare-label"><span class="opt-badge">${i===0?'A':'B'}</span></div>
+        <div class="compare-arabic">${escapeHtml(p.text)}</div>
+      </div>`).join('')}</div>`;
+}
+function optionListHtml(options, arabic){
+  return `<div class="options">${options.map((o,i)=>`
+      <div class="option" data-oi="${i}" tabindex="0" role="button"><div class="opt-badge">${String.fromCharCode(65+i)}</div><div class="${arabic?'opt-arabic':''}">${escapeHtml(arabic?o.text:o.label)}</div></div>
+    `).join('')}</div>`;
+}
+
 function quizHtml(){
   const q = currentQuestion();
   const idx = STATE.quiz.index+1, total = STATE.quiz.questions.length;
   const pct = Math.round((idx-1)/total*100);
   const prompt = questionPromptText(q);
   let body = '';
-  if(q.type==='J-COMPARE'){
+  if(q.type==='J-COMPARE' || q.type==='B'){
     body = `
     <div class="prompt-text">${prompt}</div>
-    <div class="compare-row">${q.pair.map((p,i)=>`
-      <div class="compare-box" data-oi="${i}" tabindex="0" role="button">
-        <div class="compare-label">${i===0?'A':'B'}</div>
-        <div class="compare-arabic">${escapeHtml(p.text)}</div>
-      </div>`).join('')}</div>`;
+    ${compareBoxesHtml(q.pair)}`;
   } else if(q.type==='J-STEM'){
     const ayahLine = q.blankFirst
       ? `<span class="blank">&hellip;&hellip;&hellip;</span> ${escapeHtml(q.stem)}`
       : `${escapeHtml(q.stem)} <span class="blank">&hellip;&hellip;&hellip;</span>`;
     body = `
-    <div class="ayah-box"><span class="corner tl">&#10022;</span><span class="corner tr">&#10022;</span>
+    <div class="ayah-box">${ayahCorners()}
       <div class="ayah-arabic">${ayahLine}</div>
     </div>
     <div class="prompt-text">${prompt}</div>
-    <div class="options">${q.options.map((o,i)=>`
-      <div class="option" data-oi="${i}" tabindex="0" role="button"><div class="opt-badge">${String.fromCharCode(65+i)}</div><div class="opt-arabic">${escapeHtml(o.text)}</div></div>
-    `).join('')}</div>`;
+    ${optionListHtml(q.options, true)}`;
   } else if(q.type==='A'){
     body = `
-    <div class="ayah-box"><span class="corner tl">&#10022;</span><span class="corner tr">&#10022;</span>
+    <div class="ayah-box">${ayahCorners()}
       <div class="ayah-arabic">${escapeHtml(q.arabic)}</div>
     </div>
     <div class="prompt-text">${prompt}</div>
-    <div class="options">${q.options.map((o,i)=>`
-      <div class="option" data-oi="${i}" tabindex="0" role="button"><div class="opt-badge">${String.fromCharCode(65+i)}</div><div>${escapeHtml(o.label)}</div></div>
-    `).join('')}</div>`;
-  } else if(q.type==='B'){
-    body = `
-    <div class="prompt-text">${prompt}</div>
-    <div class="compare-row">${q.pair.map((p,i)=>`
-      <div class="compare-box" data-oi="${i}" tabindex="0" role="button">
-        <div class="compare-label">${i===0?'A':'B'}</div>
-        <div class="compare-arabic">${escapeHtml(p.text)}</div>
-      </div>`).join('')}</div>`;
+    ${optionListHtml(q.options, false)}`;
   } else {
     body = `
-    <div class="ayah-box"><span class="corner tl">&#10022;</span><span class="corner tr">&#10022;</span>
+    <div class="ayah-box">${ayahCorners()}
       <div class="ayah-arabic">${escapeHtml(q.stem)} <span class="blank">&hellip;&hellip;&hellip;</span></div>
     </div>
     <div class="prompt-text">${prompt}</div>
-    <div class="options">${q.options.map((o,i)=>`
-      <div class="option" data-oi="${i}" tabindex="0" role="button"><div class="opt-badge">${String.fromCharCode(65+i)}</div><div class="opt-arabic">${escapeHtml(o.text)}</div></div>
-    `).join('')}</div>`;
+    ${optionListHtml(q.options, true)}`;
   }
   return `
-  <div class="quiz-header"><span>${STATE.currentRange.label}</span><span>${t('questionOf',{idx, total})}</span></div>
+  <div class="quiz-top">
+    <button class="icon-btn" data-action="exit-quiz">${icon('chevL')}<span>${t('exit')}</span></button>
+    <div class="qt-center">
+      <div class="qt-range">${STATE.currentRange.label}</div>
+      <div class="qt-count">${t('questionOf',{idx, total})}</div>
+    </div>
+    <span class="qt-spacer"></span>
+  </div>
   <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
   <div class="question-card">${body}</div>
   <div class="quiz-footer">
-    <button class="btn btn-secondary" data-action="exit-quiz">${t('exit')}</button>
-    <button class="btn btn-primary" data-action="submit-answer" disabled id="submitBtn">${t('submitAnswer')}</button>
+    <button class="btn btn-primary" data-action="submit-answer" disabled id="submitBtn">${t('submitAnswer')}${icon('arrowR')}</button>
   </div>`;
 }
 
 // ---------- Feedback ----------
+function feedbackHeadHtml(correct){
+  return `
+    <div class="fb-head ${correct?'correct':'incorrect'}">
+      <div class="fb-icon">${correct?icon('check'):icon('x')}</div>
+      <div class="fb-title">${correct?t('correctBanner'):t('incorrectBanner')}</div>
+    </div>`;
+}
+function nextButtonHtml(){
+  return `
+    <div class="quiz-footer">
+      <button class="btn btn-primary" data-action="next-question">${STATE.quiz.index+1<STATE.quiz.questions.length? t('nextQuestion') : t('seeResults')}</button>
+    </div>`;
+}
+
 function feedbackHtml(){
   const q = currentQuestion();
   const ans = STATE.quiz.answers[STATE.quiz.index];
@@ -41254,35 +41658,30 @@ function feedbackHtml(){
     }
     const explanation = LANG==='en' ? q.explanationEn : q.explanationMs;
     return `
-    <div class="fb-banner ${correct?'correct':'incorrect'}">
-      <div class="fb-icon">${correct?'&#10003;':'&#10005;'}</div>
-      <div class="fb-title">${correct?t('correctBanner'):t('incorrectBanner')}</div>
-    </div>
+    ${feedbackHeadHtml(correct)}
     <div class="fb-section">
       <div class="fb-label">${t('correctAnswerIs')}</div>
-      <div class="fb-answer-row"><div class="opt-badge">&#10022;</div><div class="opt-arabic" style="font-size:17px;">${escapeHtml(correctAnswerLabel)}</div></div>
+      <div class="fb-answer"><span class="check">${icon('check')}</span><div class="fb-answer-text ${q.type==='J-COMPARE'?'':'opt-arabic'}">${escapeHtml(correctAnswerLabel)}</div></div>
     </div>
     <div class="fb-section">
-      <div class="fb-label">${t('correctAyah')}</div>
-      <div class="ref-box">
-        <div class="ayah-arabic" style="font-size:19px;">${escapeHtml(q.target.arabic)}</div>
+      <div class="fb-label">${icon('star')}${t('correctAyah')}</div>
+      <div class="ref-box is-target">
+        <div class="ayah-arabic">${diffHighlightHtml(q.target.arabic, q.sibling.arabic)}</div>
         <div class="ref-cite">${q.target.surah} ${q.target.ayah} &middot; ${t('juzWord')} ${q.target.juz}</div>
       </div>
     </div>
     <div class="fb-section">
-      <div class="fb-label">${t('similarAyah')}</div>
-      <div class="ref-box">
-        <div class="ayah-arabic" style="font-size:19px;">${escapeHtml(q.sibling.arabic)}</div>
+      <div class="fb-label">${icon('book')}${t('similarAyah')}</div>
+      <div class="ref-box is-sibling">
+        <div class="ayah-arabic">${diffHighlightHtml(q.sibling.arabic, q.target.arabic)}</div>
         <div class="ref-cite">${q.sibling.surah} ${q.sibling.ayah} &middot; ${t('juzWord')} ${q.sibling.juz}</div>
       </div>
     </div>
-    <div class="fb-section">
-      <div class="fb-label">${t('whatToNotice')}</div>
+    <div class="fb-section note-box">
+      <div class="fb-label">${icon('info')}${t('whatToNotice')}</div>
       <div class="explanation-box">${escapeHtml(explanation)}</div>
     </div>
-    <div class="quiz-footer" style="justify-content:flex-end;">
-      <button class="btn btn-primary" data-action="next-question">${STATE.quiz.index+1<STATE.quiz.questions.length? t('nextQuestion') : t('seeResults')}</button>
-    </div>`;
+    ${nextButtonHtml()}`;
   }
 
   const target = q.target;
@@ -41301,29 +41700,24 @@ function feedbackHtml(){
     : t('fallbackExplanation', {list: escapeHtml(target.related_ayahs.slice(0,3).join(', '))});
 
   return `
-  <div class="fb-banner ${correct?'correct':'incorrect'}">
-    <div class="fb-icon">${correct?'&#10003;':'&#10005;'}</div>
-    <div class="fb-title">${correct?t('correctBanner'):t('incorrectBanner')}</div>
-  </div>
+  ${feedbackHeadHtml(correct)}
   <div class="fb-section">
     <div class="fb-label">${t('correctAnswerIs')}</div>
-    <div class="fb-answer-row"><div class="opt-badge">&#10022;</div><div>${escapeHtml(correctAnswerLabel)}</div></div>
+    <div class="fb-answer"><span class="check">${icon('check')}</span><div class="fb-answer-text ${q.type==='C'?'opt-arabic':''}">${escapeHtml(correctAnswerLabel)}</div></div>
   </div>
   <div class="fb-section">
-    <div class="fb-label">${t('ayahReference')}</div>
+    <div class="fb-label">${icon('book')}${t('ayahReference')}</div>
     <div class="ref-box">
-      <div class="ayah-arabic" style="font-size:20px;">${escapeHtml(target.arabic)}</div>
+      <div class="ayah-arabic">${escapeHtml(target.arabic)}</div>
       <div class="ref-cite">${target.surah} ${target.ayah} &middot; ${t('juzWord')} ${target.juz}</div>
       ${target.related_ayahs.length? `<div class="related-list">${t('relatedTo',{list:escapeHtml(target.related_ayahs.join(', '))})}</div>` : ''}
     </div>
   </div>
-  <div class="fb-section">
-    <div class="fb-label">${t('explanationLabel')}</div>
+  <div class="fb-section note-box">
+    <div class="fb-label">${icon('info')}${t('explanationLabel')}</div>
     <div class="explanation-box">${escapeHtml(explanation)}</div>
   </div>
-  <div class="quiz-footer" style="justify-content:flex-end;">
-    <button class="btn btn-primary" data-action="next-question">${STATE.quiz.index+1<STATE.quiz.questions.length? t('nextQuestion') : t('seeResults')}</button>
-  </div>`;
+  ${nextButtonHtml()}`;
 }
 
 // ---------- Results ----------
@@ -41332,14 +41726,25 @@ function resultsHtml(){
   const correct = STATE.quiz.answers.filter(a=>a.correct).length;
   const pct = Math.round(correct/total*100);
   return `
+  <div class="results-head">
+    <span class="trophy">${icon('trophy')}</span>
+    <h2>${t('resultsTitle')}</h2>
+    <div class="rh-range">${STATE.currentRange.label}</div>
+  </div>
   <div class="card results-card">
-    <div class="muted" style="margin-bottom:6px;">${t('resultsRange',{rangeLabel:STATE.currentRange.label})}</div>
     <div class="score-big">${correct} / ${total}</div>
     <div class="score-sub">${t('resultsPct',{pct})}</div>
-    <div style="margin-top:26px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-      <button class="btn btn-secondary" data-nav="challenge">${t('chooseAnotherChallenge')}</button>
-      <button class="btn btn-primary" data-action="retry-range">${t('tryAgain')}</button>
-    </div>
+    <div class="score-bar"><div style="width:${pct}%"></div></div>
+  </div>
+  <div class="card summary-list">
+    <div class="summary-row">${icon('clipboard')}<span class="sr-label">${t('resultsTotal')}</span><span class="sr-val">${total}</span></div>
+    <div class="summary-row ok">${icon('check')}<span class="sr-label">${t('statCorrect')}</span><span class="sr-val">${correct}</span></div>
+    <div class="summary-row bad">${icon('x')}<span class="sr-label">${t('resultsIncorrect')}</span><span class="sr-val">${total-correct}</span></div>
+    <div class="summary-row acc">${icon('target')}<span class="sr-label">${t('accuracyLabel')}</span><span class="sr-val">${pct}%</span></div>
+  </div>
+  <div class="results-actions">
+    <button class="btn btn-primary" data-action="retry-range">${icon('refresh')}${t('tryAgain')}</button>
+    <button class="btn btn-secondary" data-nav="challenge">${icon('layers')}${t('chooseAnotherChallenge')}</button>
   </div>`;
 }
 
@@ -41361,31 +41766,37 @@ function progressHtml(){
 
   if(s.attempted===0){
     return `
-    <h2>${t('progressTitle')}</h2>
-    <div class="empty-state card">${t('progressEmpty')}</div>
-    <div style="margin-top:16px;"><button class="btn btn-primary" data-nav="challenge">${t('heroStart')}</button></div>`;
+    <div class="page-head">
+      <span class="head-icon">${icon('chart')}</span>
+      <h2>${t('progressTitle')}</h2>
+    </div>
+    <div class="empty-state card">${icon('book')}<div>${t('progressEmpty')}</div></div>
+    <div style="margin-top:18px;"><button class="btn btn-primary btn-block" data-nav="challenge">${icon('play')}${t('heroStart')}</button></div>`;
   }
 
   const weakEntries = Object.entries(PROGRESS.weak_items).sort((a,b)=>b[1]-a[1]).slice(0,8);
   const weakHtml = weakEntries.length ? `
-  <h3 style="margin-top:28px;">${t('weakItemsTitle')}</h3>
-  <div class="card" style="margin-top:10px;">
-    ${weakEntries.map(([sig,count])=>`<div class="bar-row" style="justify-content:space-between;"><div style="color:var(--charcoal);">${escapeHtml(sig)}</div><div class="muted">${t('timesWrong',{count})}</div></div>`).join('')}
+  <h3 class="section-title">${t('weakItemsTitle')}</h3>
+  <div class="card" style="padding:8px 20px;">
+    ${weakEntries.map(([sig,count])=>`<div class="weak-row"><div class="w-sig">${escapeHtml(sig)}</div><div class="w-count">${t('timesWrong',{count})}</div></div>`).join('')}
   </div>` : '';
 
   return `
-  <h2>${t('progressTitle')}</h2>
-  <p class="muted">${t('progressSub')}</p>
-  <div class="stat-grid">
-    <div class="stat-box"><div class="stat-num">${s.attempted}</div><div class="stat-label">${t('statAttempted')}</div></div>
-    <div class="stat-box"><div class="stat-num">${s.correct}</div><div class="stat-label">${t('statCorrect')}</div></div>
-    <div class="stat-box"><div class="stat-num">${accuracy}%</div><div class="stat-label">${t('statAccuracy')}</div></div>
-    <div class="stat-box"><div class="stat-num">${completed}</div><div class="stat-label">${t('statCompleted')}</div></div>
+  <div class="page-head">
+    <span class="head-icon">${icon('chart')}</span>
+    <h2>${t('progressTitle')}</h2>
+    <p class="muted">${t('progressSub')}</p>
   </div>
-  <h3 style="margin-top:28px;">${t('performanceByJuz')}</h3>
-  <div class="card" style="margin-top:10px;">${bars}</div>
+  <div class="stat-grid">
+    <div class="stat-box">${icon('clipboard')}<div class="stat-num">${s.attempted}</div><div class="stat-label">${t('statAttempted')}</div></div>
+    <div class="stat-box">${icon('check')}<div class="stat-num">${s.correct}</div><div class="stat-label">${t('statCorrect')}</div></div>
+    <div class="stat-box">${icon('target')}<div class="stat-num">${accuracy}%</div><div class="stat-label">${t('statAccuracy')}</div></div>
+    <div class="stat-box">${icon('trophy')}<div class="stat-num">${completed}</div><div class="stat-label">${t('statCompleted')}</div></div>
+  </div>
+  <h3 class="section-title">${t('performanceByJuz')}</h3>
+  <div class="card" style="padding:12px 20px;">${bars}</div>
   ${weakHtml}
-  <div style="margin-top:18px;"><button class="btn-plain" data-action="reset-progress">${t('resetProgress')}</button></div>`;
+  <div style="margin-top:20px;text-align:center;"><button class="btn-plain" data-action="reset-progress">${t('resetProgress')}</button></div>`;
 }
 
 // ===================== Events =====================
